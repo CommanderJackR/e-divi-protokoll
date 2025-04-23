@@ -1,0 +1,204 @@
+/* Grundlegendes Styling  */
+
+:root {
+    /* Farbvariablen für das LSMD-Design  */
+    --lsmd-rot: #E52B2B;  /* Ein kräftiges Rot, ggf. anpassen  */
+    --lsmd-dunkelrot: #B22222;
+    --lsmd-hellrot: #FF4500;
+    --hellgrau: #f0f2f5;
+    --mittelgrau: #d9d9d9;
+    --dunkelgrau: #ccc;
+    --text-farbe: #333;
+    --hintergrund-farbe: #fff;
+    --rahmen-radius: 12px;
+    --box-schatten: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background-color: var(--hellgrau);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Tablet-Frame (Hauptcontainer)  */
+
+.tablet-frame {
+    max-width: 900px;
+    width: 95%; /* Etwas responsiver  */
+    background-color: var(--hintergrund-farbe);
+    border-radius: 20px;
+    box-shadow: var(--box-schatten);
+    overflow: hidden;
+    margin: 10px; /* Etwas Abstand zum Rand  */
+}
+
+/* Header  */
+
+header {
+    background-color: var(--lsmd-rot);
+    color: var(--hintergrund-farbe);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Logo und Text linksbündig  */
+    border-bottom: 2px solid var(--lsmd-dunkelrot); /* Dezenten Rahmen unten  */
+}
+
+header img {
+    height: 50px; /* Etwas kleineres Logo  */
+    margin-right: 15px;
+}
+
+header h1 {
+    font-size: 1.5em;
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Main-Bereich  */
+
+main {
+    padding: 20px;
+}
+
+/* Cards (Abschnitte)  */
+
+.card {
+    background-color: var(--hintergrund-farbe);
+    border: 1px solid var(--mittelgrau);
+    border-radius: var(--rahmen-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--box-schatten);
+}
+
+.card h2 {
+    color: var(--lsmd-rot);
+    border-bottom: 2px solid var(--lsmd-hellrot);
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* Formular-Elemente  */
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-farbe);
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid var(--dunkelgrau);
+    border-radius: var(--rahmen-radius);
+    font-size: 1em;
+    font-family: inherit; /* Schriftart erben  */
+}
+
+textarea {
+    resize: vertical; /* Nur vertikal veränderbar  */
+}
+
+input[type="radio"] {
+    display: inline-block;
+    width: auto;
+    margin-right: 5px;
+}
+
+/* Buttons  */
+
+button, input[type="submit"] {
+    background-color: var(--lsmd-rot);
+    color: var(--hintergrund-farbe);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border-radius: var(--rahmen-radius);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    font-family: inherit;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: var(--lsmd-dunkelrot);
+}
+
+button:active, input[type="submit"]:active {
+    background-color: var(--lsmd-dunkelrot);
+    transform: scale(0.98);
+}
+
+button[type="button"] {
+    background-color: var(--mittelgrau);
+    color: var(--text-farbe);
+}
+
+button[type="button"]:hover {
+    background-color: #ddd;
+}
+
+/* Signaturfeld  */
+
+canvas {
+    background-color: #f9f9f9;
+    border: 1px solid var(--dunkelgrau);
+    border-radius: 5px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Zusätzliche Stile  */
+
+#gcsResult, #nrsSuggestion {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#transportDestinationLabel {
+    display: none; /* Ausblenden, bis "Ja" gewählt  */
+}
+
+#transportDestination {
+    display: none;
+}
+
+/* Responsives Design  */
+
+@media (max-width: 768px) {
+    .tablet-frame {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header img {
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIVI-Protokoll – LSMD</title>
+    <link rel="stylesheet" href="style.css">  </head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<body>
+    <div class="tablet-frame">  <header>  <img src="lsmd-logo.png" alt="LSMD Logo">  <h1>DIVI-Protokoll – Los Santos Medical Department</h1>
+        </header>
+        <main>  <form id="diviForm">  <section class="card">  <h2>🧍 Patientendaten</h2>
+                    <label for="patientName">Name:</label>
+                    <input type="text" id="patientName" name="patientName" required>
+
+                    <label for="dob">Geburtsdatum:</label>
+                    <input type="date" id="dob" name="dob">
+
+                    <label for="age">Alter:</label>
+                    <input type="text" id="age" name="age" readonly>  <label for="gender">Geschlecht:</label>
+                    <select id="gender" name="gender">
+                        <option value="m">Männlich</option>
+                        <option value="f">Weiblich</option>
+                        <option value="d">Divers</option>
+                    </select>
+                </section>
+
+                <section class="card">  <h2>📊 Patientenzustand</h2>
+                    <label for="initialState">Initialer Patientenzustand bei Auffinden:</label>
+                    <textarea id="initialState" name="initialState" rows="3"></textarea>
+
+                    <label for="symptoms">Symptome:</label>
+                    <textarea id="symptoms" name="symptoms" rows="3"></textarea>
+
+                    <label for="allergies">Allergien:</label>
+                    <textarea id="allergies" name="allergies" rows="3"></textarea>
+
+                    <label for="pulse">Puls:</label>
+                    <input type="number" id="pulse" name="pulse">
+
+                    <label for="bp">Blutdruck:</label>
+                    <input type="text" id="bp" name="bp">
+
+                    <label for="spo2">Sauerstoffsättigung (SpO2):</label>
+                    <input type="text" id="spo2" name="spo2">
+
+                    <label for="gcs_eye">GCS - Augenöffnung:</label>
+                    <select id="gcs_eye" name="gcs_eye">
+                        <option value="1">1 – keine Reaktion</option>
+                        <option value="2">2 – auf Schmerz</option>
+                        <option value="3">3 – auf Ansprache</option>
+                        <option value="4">4 – spontan</option>
+                    </select>
+
+                    <label for="gcs_verbal">GCS - Verbale Reaktion:</label>
+                    <select id="gcs_verbal" name="gcs_verbal">
+                        <option value="1">1 – keine</option>
+                        <option value="2">2 – unverständlich</option>
+                        <option value="3">3 – unzusammenhängend</option>
+                        <option value="4">4 – konfus</option>
+                        <option value="5">5 – orientiert</option>
+                    </select>
+
+                    <label for="gcs_motor">GCS - Motorische Reaktion:</label>
+                    <select id="gcs_motor" name="gcs_motor">
+                        <option value="1">1 – keine</option>
+                        <option value="2">2 – Strecksynergismen</option>
+                        <option value="3">3 – Beugesynergismen</option>
+                        <option value="4">4 – gezielte Schmerzabwehr</option>
+                        <option value="5">5 – gezielte Bewegung</option>
+                        <option value="6">6 – befolgt Aufforderung</option>
+                    </select>
+
+                     <p id="gcsResult">GCS Gesamt: -</p>
+
+                    <label for="nrsValue">NRS - Schmerzskala (0-10):</label>
+                    <select id="nrsValue" name="nrs">
+                        <option value="">-- auswählen --</option>
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                        <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                        <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+
+                    <p id="nrsSuggestion">Empfohlene Maßnahme: -</p>
+
+                    <label for="temperature">Temperatur:</label>
+                    <input type="text" id="temperature" name="temperature">
+
+                    <label for="bloodSugar">Blutzucker:</label>
+                    <input type="text" id="bloodSugar" name="bloodSugar">
+                </section>
+
+                <section class="card">  <h2>🚑 Einsatzdaten</h2>
+                    <label>Transport notwendig?</label>
+                    <label for="transportYes">Ja</label>
+                    <input type="radio" id="transportYes" name="transportNeeded" value="yes">
+                    <label for="transportNo">Nein</label>
+                    <input type="radio" id="transportNo" name="transportNeeded" value="no" checked>  <label for="transportDestination" id="transportDestinationLabel">Transportziel:</label>
+                    <input type="text" id="transportDestination" name="transportDestination" disabled>  <label for="date">Einsatzdatum:</label>
+                    <input type="date" id="date" name="date">
+
+                    <label for="vehicle">Fahrzeugkennung:</label>
+                    <input type="text" id="vehicle" name="vehicle">
+
+                    <label for="crew">Einsatzkräfte:</label>
+                    <input type="text" id="crew" name="crew">
+
+                    <label for="location">Einsatzort:</label>
+                    <input type="text" id="location" name="location">
+
+                    <label for="transport">Transportmittel:</label>
+                    <select id="transport" name="transport">
+                        <option value="rtw">RTW</option>
+                        <option value="helicopter">Rettungshubschrauber</option>
+                    </select>
+
+                    <label for="transportType">Transportart:</label>
+                    <select id="transportType" name="transportType">
+                        <option value="seated">Sitzend</option>
+                        <option value="lying">Liegend</option>
+                        <option value="lying_nef">Liegend mit NEF</option>
+                    </select>
+
+                    <label for="signaturePad">Unterschrift des Transportierenden:</label>
+                    <canvas id="signaturePad" width="300" height="150"></canvas>
+                    <button type="button" onclick="clearSignature()">Unterschrift löschen</button>
+                </section>
+
+                <button type="submit">Protokoll abschicken</button>  </form>
+        </main>
+    </div>
+    <script src="script.js"></script>  </body>
+</html>
