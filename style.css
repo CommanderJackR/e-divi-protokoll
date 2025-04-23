@@ -1,204 +1,99 @@
-/* Grundlegendes Styling  */
-
-:root {
-    /* Farbvariablen für das LSMD-Design  */
-    --lsmd-rot: #E52B2B;  /* Ein kräftiges Rot, ggf. anpassen  */
-    --lsmd-dunkelrot: #B22222;
-    --lsmd-hellrot: #FF4500;
-    --hellgrau: #f0f2f5;
-    --mittelgrau: #d9d9d9;
-    --dunkelgrau: #ccc;
-    --text-farbe: #333;
-    --hintergrund-farbe: #fff;
-    --rahmen-radius: 12px;
-    --box-schatten: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 body {
-    background-color: var(--hellgrau);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', sans-serif;
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
-
-/* Tablet-Frame (Hauptcontainer)  */
 
 .tablet-frame {
     max-width: 900px;
-    width: 95%; /* Etwas responsiver  */
-    background-color: var(--hintergrund-farbe);
+    margin: auto;
+    background: #fff;
     border-radius: 20px;
-    box-shadow: var(--box-schatten);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    margin: 10px; /* Etwas Abstand zum Rand  */
 }
 
-/* Header  */
-
 header {
-    background-color: var(--lsmd-rot);
-    color: var(--hintergrund-farbe);
-    padding: 15px 20px;
+    background: #0052cc;
+    color: white;
+    padding: 15px;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Logo und Text linksbündig  */
-    border-bottom: 2px solid var(--lsmd-dunkelrot); /* Dezenten Rahmen unten  */
 }
 
 header img {
-    height: 50px; /* Etwas kleineres Logo  */
+    height: 60px;
     margin-right: 15px;
 }
-
-header h1 {
-    font-size: 1.5em;
-    margin: 0;
-    font-weight: 600;
-}
-
-/* Main-Bereich  */
 
 main {
     padding: 20px;
 }
 
-/* Cards (Abschnitte)  */
-
 .card {
-    background-color: var(--hintergrund-farbe);
-    border: 1px solid var(--mittelgrau);
-    border-radius: var(--rahmen-radius);
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
-    box-shadow: var(--box-schatten);
 }
-
-.card h2 {
-    color: var(--lsmd-rot);
-    border-bottom: 2px solid var(--lsmd-hellrot);
-    padding-bottom: 10px;
-    margin-top: 0;
-}
-
-/* Formular-Elemente  */
 
 label {
     display: block;
-    margin-bottom: 8px;
-    color: var(--text-farbe);
-    font-weight: 500;
+    margin-bottom: 5px;
 }
 
 input[type="text"],
-input[type="date"],
 input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"],
 select,
 textarea {
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
+    padding: 8px;
+    margin-top: 4px;
     box-sizing: border-box;
-    border: 1px solid var(--dunkelgrau);
-    border-radius: var(--rahmen-radius);
-    font-size: 1em;
-    font-family: inherit; /* Schriftart erben  */
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }
 
-textarea {
-    resize: vertical; /* Nur vertikal veränderbar  */
-}
-
-input[type="radio"] {
-    display: inline-block;
-    width: auto;
-    margin-right: 5px;
-}
-
-/* Buttons  */
-
-button, input[type="submit"] {
-    background-color: var(--lsmd-rot);
-    color: var(--hintergrund-farbe);
+button {
+    background: #0052cc;
+    color: white;
     border: none;
-    padding: 12px 25px;
-    font-size: 1.1em;
-    border-radius: var(--rahmen-radius);
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-    font-family: inherit;
-}
-
-button:hover, input[type="submit"]:hover {
-    background-color: var(--lsmd-dunkelrot);
-}
-
-button:active, input[type="submit"]:active {
-    background-color: var(--lsmd-dunkelrot);
-    transform: scale(0.98);
-}
-
-button[type="button"] {
-    background-color: var(--mittelgrau);
-    color: var(--text-farbe);
-}
-
-button[type="button"]:hover {
-    background-color: #ddd;
-}
-
-/* Signaturfeld  */
-
-canvas {
-    background-color: #f9f9f9;
-    border: 1px solid var(--dunkelgrau);
-    border-radius: 5px;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Zusätzliche Stile  */
-
-#gcsResult, #nrsSuggestion {
-    font-weight: bold;
     margin-top: 10px;
 }
 
-#transportDestinationLabel {
-    display: none; /* Ausblenden, bis "Ja" gewählt  */
+button:hover {
+    background: #003f9e;
 }
 
-#transportDestination {
-    display: none;
+canvas {
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-/* Responsives Design  */
+table {
+    width: 100%;
+    margin-bottom: 10px;
+}
 
-@media (max-width: 768px) {
-    .tablet-frame {
-        width: 100%;
-        margin: 0;
-        border-radius: 0;
-        box-shadow: none;
-    }
+table td {
+    padding: 5px;
+}
 
-    header {
-        flex-direction: column;
-        text-align: center;
-    }
+table td:first-child {
+    width: 30%;
+}
 
-    header img {
-        margin-bottom: 10px;
-        margin-right: 0;
-    }
-
-    main {
-        padding: 10px;
-    }
-
-    .card {
-        padding: 15px;
-    }
+input[type="checkbox"] {
+    display: inline-block;
+    width: auto;
+    margin-right: 5px;
 }
