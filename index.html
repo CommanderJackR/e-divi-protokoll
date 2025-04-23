@@ -1,100 +1,137 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LSMD E-DIVI Protokoll</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>E-DIVI Protokoll – LSMD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="ipad-frame">
+  <div class="container">
     <header>
-      <img src="logo.png" alt="LSMD Logo" class="logo">
-      <h1>DIVI Notarzteinsatzprotokoll</h1>
+      <img src="lsmd-logo.png" alt="LSMD Logo" class="logo">
+      <h1>LSMD – E-DIVI Protokoll</h1>
     </header>
 
     <form id="diviForm">
+      <!-- Einsatzdaten -->
+      <section>
+        <h2>Einsatzdaten</h2>
+        <label>Einsatznummer: <input type="text" name="einsatznummer" required></label>
+        <label>Einsatzort: <input type="text" name="einsatzort"></label>
+        <label>Einsatzzeit: <input type="datetime-local" name="einsatzzeit"></label>
+        <label>Fahrzeugkennung: <input type="text" name="fahrzeug"></label>
+        <label>NotSan Name: <input type="text" name="notsan"></label>
+        <label>Begleitung: <input type="text" name="begleitung"></label>
+      </section>
+
+      <!-- Patientendaten -->
       <section>
         <h2>Patientendaten</h2>
-        <label>Vorname: <input type="text" name="vorname" required></label>
-        <label>Nachname: <input type="text" name="nachname" required></label>
-        <label>Geburtsdatum: <input type="date" name="geburtsdatum" required></label>
+        <label>Name: <input type="text" name="name"></label>
+        <label>Alter: <input type="number" name="alter"></label>
         <label>Geschlecht:
           <select name="geschlecht">
-            <option value="M">Männlich</option>
-            <option value="W">Weiblich</option>
-            <option value="D">Divers</option>
+            <option value="Männlich">Männlich</option>
+            <option value="Weiblich">Weiblich</option>
+            <option value="Divers">Divers</option>
+          </select>
+        </label>
+        <label>Bewusstsein:
+          <select name="bewusstsein">
+            <option value="klar">klar</option>
+            <option value="verwirrt">verwirrt</option>
+            <option value="bewusstlos">bewusstlos</option>
+          </select>
+        </label>
+        <label>Pupillenreaktion:
+          <select name="pupillen">
+            <option value="isokor">isokor</option>
+            <option value="anisokor">anisokor</option>
+            <option value="lichtreagierend">lichtreagierend</option>
+            <option value="nicht lichtreagierend">nicht lichtreagierend</option>
           </select>
         </label>
       </section>
 
+      <!-- Vitalwerte -->
       <section>
-        <h2>GCS</h2>
-        <label>Augenöffnung:
+        <h2>Vitalwerte</h2>
+        <label>Puls (bpm): <input type="number" name="puls"></label>
+        <label>Blutdruck (sys/dia): <input type="text" name="blutdruck" placeholder="z. B. 120/80"></label>
+        <label>SPO2 (%): <input type="number" name="spo2"></label>
+        <label>Temperatur (°C): <input type="number" step="0.1" name="temperatur"></label>
+        <label>Blutzucker (mg/dL): <input type="number" name="blutzucker"></label>
+        <label>Atemfrequenz (/min): <input type="number" name="atemfrequenz"></label>
+      </section>
+
+      <!-- GCS -->
+      <section>
+        <h2>Glasgow Coma Scale</h2>
+        <label>Augen öffnen:
           <select name="gcs_auge" onchange="calculateGCS()">
-            <option value="4">4 - spontan</option>
-            <option value="3">3 - auf Ansprache</option>
-            <option value="2">2 - auf Schmerz</option>
-            <option value="1">1 - keine</option>
+            <option value="4">Spontan (4)</option>
+            <option value="3">auf Ansprache (3)</option>
+            <option value="2">auf Schmerzreiz (2)</option>
+            <option value="1">keine Reaktion (1)</option>
           </select>
         </label>
         <label>Verbale Reaktion:
           <select name="gcs_sprache" onchange="calculateGCS()">
-            <option value="5">5 - orientiert</option>
-            <option value="4">4 - verwirrt</option>
-            <option value="3">3 - unpassend</option>
-            <option value="2">2 - unverständlich</option>
-            <option value="1">1 - keine</option>
+            <option value="5">orientiert (5)</option>
+            <option value="4">verwirrt (4)</option>
+            <option value="3">ungeeignete Wörter (3)</option>
+            <option value="2">unverständliche Laute (2)</option>
+            <option value="1">keine (1)</option>
           </select>
         </label>
         <label>Motorische Reaktion:
           <select name="gcs_motorik" onchange="calculateGCS()">
-            <option value="6">6 - befolgt Befehle</option>
-            <option value="5">5 - gezielte Abwehr</option>
-            <option value="4">4 - ungezielte Abwehr</option>
-            <option value="3">3 - Beugesynergismen</option>
-            <option value="2">2 - Strecksynergismen</option>
-            <option value="1">1 - keine</option>
+            <option value="6">befolgt Aufforderung (6)</option>
+            <option value="5">gezielte Abwehr (5)</option>
+            <option value="4">ungezielte Abwehr (4)</option>
+            <option value="3">Beugesynergismen (3)</option>
+            <option value="2">Strecksynergismen (2)</option>
+            <option value="1">keine Reaktion (1)</option>
           </select>
         </label>
-        <div id="gcsResult">GCS Gesamt: 15</div>
+        <p id="gcsResult">GCS Gesamt: 15</p>
       </section>
 
+      <!-- NRS -->
       <section>
         <h2>Schmerzskala (NRS)</h2>
-        <label>NRS (0-10):
-          <select name="nrs" id="nrs" onchange="recommendMed()">
-            <option value="0">0 - keine Schmerzen</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10 - stärkste Schmerzen</option>
+        <label>
+          Schmerz (0–10):
+          <select id="nrs" name="nrs" onchange="recommendMed()">
+            ${[...Array(11).keys()].map(n => `<option value="${n}">${n}</option>`).join('')}
           </select>
         </label>
-        <div id="medEmpfehlung"></div>
+        <p id="medEmpfehlung">Empfehlung: –</p>
       </section>
 
+      <!-- Maßnahmen -->
       <section>
-        <h2>Befunde & Maßnahmen</h2>
-        <label><input type="checkbox" name="ekg"> EKG angeschlossen</label>
-        <label><input type="checkbox" name="spo2"> SpO2 gemessen</label>
-        <label><input type="checkbox" name="ivZugang"> i.v. Zugang gelegt</label>
-        <label><input type="checkbox" name="beatmung"> Beatmung erforderlich</label>
+        <h2>Maßnahmen</h2>
+        <label>Zugang gelegt:
+          <select name="zugang">
+            <option value="Ja">Ja</option>
+            <option value="Nein">Nein</option>
+          </select>
+        </label>
+        <label>Medikamente verabreicht: <input type="text" name="medikation"></label>
+        <label>Sonstige Maßnahmen: <textarea name="maßnahmen" rows="3"></textarea></label>
       </section>
 
+      <!-- Unterschrift -->
       <section>
         <h2>Unterschrift</h2>
-        <canvas id="signature" width="300" height="100"></canvas>
-        <button type="button" onclick="clearSignature()">Signatur löschen</button>
+        <canvas id="signature" width="300" height="150" style="border: 1px solid #ccc;"></canvas>
+        <br>
+        <button type="button" onclick="clearSignature()">Unterschrift löschen</button>
       </section>
 
-      <button type="submit">Absenden & PDF erzeugen</button>
+      <button type="submit">📤 Protokoll absenden</button>
     </form>
   </div>
 
