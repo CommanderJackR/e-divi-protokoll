@@ -1,91 +1,135 @@
-body {
+/* Grundlegendes Reset */
+* {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f4f4f4;
-  color: #222;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.ipad-frame {
-  max-width: 768px;
-  margin: 30px auto;
-  border: 10px solid #990000;
-  border-radius: 40px;
-  background-color: white;
+/* iPad-Style Container */
+body {
+  background: #f5f5f5;
   padding: 20px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
 }
 
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  padding: 30px;
+}
+
+/* Kopfzeile */
 header {
-  text-align: center;
-  padding-bottom: 10px;
-  border-bottom: 3px solid #990000;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 2px solid #c62828;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .logo {
-  max-width: 100px;
-  margin-bottom: 10px;
+  height: 60px;
 }
 
-h1 {
-  font-size: 22px;
-  color: #990000;
+header h1 {
+  font-size: 1.8rem;
+  color: #c62828;
 }
 
+/* Abschnitte */
 section {
-  margin: 20px 0;
+  margin-bottom: 25px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #eee;
 }
 
-h2 {
-  color: #990000;
-  font-size: 18px;
-  margin-bottom: 10px;
+section h2 {
+  margin-bottom: 15px;
+  color: #b71c1c;
+  font-size: 1.3rem;
 }
 
+/* Labels & Inputs */
 label {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  color: #333;
+  font-weight: bold;
 }
 
 input[type="text"],
-input[type="date"],
-select {
+input[type="number"],
+input[type="datetime-local"],
+select,
+textarea {
   width: 100%;
-  padding: 8px;
-  margin-top: 4px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease;
 }
 
-input[type="checkbox"] {
-  margin-right: 10px;
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #c62828;
+  outline: none;
 }
 
-button {
-  background-color: #990000;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #b30000;
-}
-
+/* GCS/NRS Ergebnisfeld */
 #gcsResult,
 #medEmpfehlung {
   margin-top: 10px;
   font-weight: bold;
-  color: #990000;
+  color: #2e7d32;
 }
 
+/* Button */
+button[type="submit"],
+button {
+  background-color: #c62828;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+button:hover {
+  background-color: #b71c1c;
+}
+
+/* Canvas für Signatur */
 canvas {
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  display: block;
   margin-top: 10px;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo {
+    height: 50px;
+  }
+
+  header h1 {
+    font-size: 1.4rem;
+  }
 }
