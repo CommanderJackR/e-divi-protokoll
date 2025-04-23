@@ -1,240 +1,103 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIVI-Protokoll – LSMD</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LSMD E-DIVI Protokoll</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="tablet-frame">
-        <header>
-            <img src="lsmd-logo.png" alt="LSMD Logo">
-            <h1>DIVI-Protokoll – Los Santos Medical Department</h1>
-        </header>
-        <main>
-            <form id="diviForm">
-                <div class="card">
-                    <h2>1. Rettungstechnische Daten</h2>
-                    <table>
-                        <tr>
-                            <td>Standort: <input type="text" name="location"></td>
-                            <td>Rettungsmittel:
-                                <label><input type="checkbox" name="vehicle" value="NAW">NAW</label>
-                                <label><input type="checkbox" name="vehicle" value="RTW">RTW</label>
-                                <label><input type="checkbox" name="vehicle" value="ITW">ITW</label>
-                                <label><input type="checkbox" name="vehicle" value="RTH">RTH</label>
-                                <label><input type="checkbox" name="vehicle" value="KTW">KTW</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Einsatzdatum: <input type="date" name="date"></td>
-                            <td>Einsatzzeit: <input type="time" name="time"></td>
-                        </tr>
-                        <tr>
-                            <td>Transportziel: <input type="text" name="destination"></td>
-                            <td>Rettungsdauer: <input type="text" name="duration"></td>
-                        </tr>
-                        <tr>
-                            <td>Transport:
-                                <select name="transport">
-                                    <option value="rtw">RTW</option>
-                                    <option value="ktw">KTW</option>
-                                    <option value="hubschrauber">Rettungshubschrauber</option>
-                                </select>
-                            </td>
-                            <td>Kilometerstand: <input type="number" name="mileage"></td>
-                        </tr>
-                    </table>
-                </div>
+  <div class="ipad-frame">
+    <header>
+      <img src="logo.png" alt="LSMD Logo" class="logo">
+      <h1>DIVI Notarzteinsatzprotokoll</h1>
+    </header>
 
-                <div class="card">
-                    <h2>2. Erstbefund, Zeiten, Anamnese, Erstbefund</h2>
-                    <table>
-                        <tr>
-                            <td>CPR: <label><input type="checkbox" name="cpr">Kollaps beobachtet</label></td>
-                            <td>Zeitpunkt: <input type="time" name="cprTime"></td>
-                        </tr>
-                    </table>
+    <form id="diviForm">
+      <section>
+        <h2>Patientendaten</h2>
+        <label>Vorname: <input type="text" name="vorname" required></label>
+        <label>Nachname: <input type="text" name="nachname" required></label>
+        <label>Geburtsdatum: <input type="date" name="geburtsdatum" required></label>
+        <label>Geschlecht:
+          <select name="geschlecht">
+            <option value="M">Männlich</option>
+            <option value="W">Weiblich</option>
+            <option value="D">Divers</option>
+          </select>
+        </label>
+      </section>
 
-                    <h3>3.1. Neurologie</h3>
-                    <table>
-                        <tr>
-                            <td>Bewusstseinslage:
-                                <label><input type="checkbox" name="consciousness" value="orientiert">orientiert</label>
-                                <label><input type="checkbox" name="consciousness" value="getruebt">getrübt</label>
-                                <label><input type="checkbox" name="consciousness" value="bewusstlos">bewusstlos</label>
-                                <label><input type="checkbox" name="consciousness" value="narkotisiert">narkotisiert</label>
-                            </td>
-                            <td>Meningismus: <label><input type="checkbox" name="meningismus">ja</label></td>
-                        </tr>
-                    </table>
+      <section>
+        <h2>GCS</h2>
+        <label>Augenöffnung:
+          <select name="gcs_auge" onchange="calculateGCS()">
+            <option value="4">4 - spontan</option>
+            <option value="3">3 - auf Ansprache</option>
+            <option value="2">2 - auf Schmerz</option>
+            <option value="1">1 - keine</option>
+          </select>
+        </label>
+        <label>Verbale Reaktion:
+          <select name="gcs_sprache" onchange="calculateGCS()">
+            <option value="5">5 - orientiert</option>
+            <option value="4">4 - verwirrt</option>
+            <option value="3">3 - unpassend</option>
+            <option value="2">2 - unverständlich</option>
+            <option value="1">1 - keine</option>
+          </select>
+        </label>
+        <label>Motorische Reaktion:
+          <select name="gcs_motorik" onchange="calculateGCS()">
+            <option value="6">6 - befolgt Befehle</option>
+            <option value="5">5 - gezielte Abwehr</option>
+            <option value="4">4 - ungezielte Abwehr</option>
+            <option value="3">3 - Beugesynergismen</option>
+            <option value="2">2 - Strecksynergismen</option>
+            <option value="1">1 - keine</option>
+          </select>
+        </label>
+        <div id="gcsResult">GCS Gesamt: 15</div>
+      </section>
 
-                    <h4>GCS</h4>
-                    <table>
-                        <tr>
-                            <td>Augen öffnen:
-                                <select name="gcs_eye">
-                                    <option value="4">4 - spontan</option>
-                                    <option value="3">3 - auf Aufforderung</option>
-                                    <option value="2">2 - auf Schmerzreiz</option>
-                                    <option value="1">1 - kein Augenöffnen</option>
-                                </select>
-                            </td>
-                            <td>Verbale Reaktion:
-                                <select name="gcs_verbal">
-                                    <option value="5">5 - Konversation fähig</option>
-                                    <option value="4">4 - Desorientiert</option>
-                                    <option value="3">3 - Wortsalat</option>
-                                    <option value="2">2 - Unverständliche Laute</option>
-                                    <option value="1">1 - Keine Reaktion</option>
-                                </select>
-                            </td>
-                            <td>Motorische Reaktion:
-                                <select name="gcs_motor">
-                                    <option value="6">6 - Befolgt Aufforderung</option>
-                                    <option value="5">5 - Gezielte Abwehr</option>
-                                    <option value="4">4 - Ungezielte Abwehr</option>
-                                    <option value="3">3 - Beugesynergismen</option>
-                                    <option value="2">2 - Strecksynergismen</option>
-                                    <option value="1">1 - Keine Abwehr</option>
-                                </select>
-                            </td>
-                            <td>GCS Summe: <span id="gcsResult">-</span></td>
-                            <td>GCS Beurteilung: <span id="gcsLevel">-</span></td>
-                        </tr>
-                    </table>
+      <section>
+        <h2>Schmerzskala (NRS)</h2>
+        <label>NRS (0-10):
+          <select name="nrs" id="nrs" onchange="recommendMed()">
+            <option value="0">0 - keine Schmerzen</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10 - stärkste Schmerzen</option>
+          </select>
+        </label>
+        <div id="medEmpfehlung"></div>
+      </section>
 
-                    <h3>3.2. Messwerte</h3>
-                    <table>
-                        <tr>
-                            <td>Puls: <input type="number" name="pulse"> /min</td>
-                            <td>Blutdruck: <input type="text" name="bp"> mmHg</td>
-                            <td>SpO2: <input type="text" name="spo2"> %</td>
-                            <td>EKG: <input type="text" name="ekg"></td>
-                        </tr>
-                    </table>
+      <section>
+        <h2>Befunde & Maßnahmen</h2>
+        <label><input type="checkbox" name="ekg"> EKG angeschlossen</label>
+        <label><input type="checkbox" name="spo2"> SpO2 gemessen</label>
+        <label><input type="checkbox" name="ivZugang"> i.v. Zugang gelegt</label>
+        <label><input type="checkbox" name="beatmung"> Beatmung erforderlich</label>
+      </section>
 
-                    <h3>3.3. Schmerzskala (NRS)</h3>
-                    <table>
-                        <tr>
-                            <td>NRS (0-10):
-                                <select name="nrs" id="nrsValue">
-                                    <option value="">-- auswählen --</option>
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    <option value="10">10</option>
-                                </select>
-                            </td>
-                            <td>NRS Beurteilung: <span id="nrsSuggestion">-</span></td>
-                        </tr>
-                    </table>
+      <section>
+        <h2>Unterschrift</h2>
+        <canvas id="signature" width="300" height="100"></canvas>
+        <button type="button" onclick="clearSignature()">Signatur löschen</button>
+      </section>
 
-                    <h3>3.4. Atmung</h3>
-                    <table>
-                        <tr>
-                            <td>Atmung:
-                                <label><input type="checkbox" name="breathing" value="normal">normal</label>
-                                <label><input type="checkbox" name="breathing" value="dyspnoe">Dyspnoe</label>
-                                <label><input type="checkbox" name="breathing" value="apnoe">Apnoe</label>
-                                <label><input type="checkbox" name="breathing" value="beatmung">Beatmung/Tubus</label>
-                            </td>
-                            <td>Atemgeräusche: <input type="text" name="breathSounds"></td>
-                            <td>Atemwegverlegung: <label><input type="checkbox" name="airwayObstruction">ja</label></td>
-                        </tr>
-                    </table>
+      <button type="submit">Absenden & PDF erzeugen</button>
+    </form>
+  </div>
 
-                    <h3>3.5. Psychischer Zustand</h3>
-                    <table>
-                        <tr>
-                            <td>Psychischer Zustand:
-                                <label><input type="checkbox" name="mentalStatus" value="orientiert">orientiert</label>
-                                <label><input type="checkbox" name="mentalStatus" value="aggressiv">aggressiv</label>
-                                <label><input type="checkbox" name="mentalStatus" value="depressiv">depressiv</label>
-                                <label><input type="checkbox" name="mentalStatus" value="unauffaellig">unauffällig</label>
-                                <label><input type="checkbox" name="mentalStatus" value="wahnhaft">wahnhaft</label>
-                                <label><input type="checkbox" name="mentalStatus" value="verlangsamt">verlangsamt</label>
-                                <label><input type="checkbox" name="mentalStatus" value="euphorisch">euphorisch</label>
-                                <label><input type="checkbox" name="mentalStatus" value="nichtbeurteilbar">nicht beurteilbar</label>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="card">
-                    <h2>4. Erstdiagnose</h2>
-                    <table>
-                        <tr>
-                            <td>4.1. Erkrankung:
-                                <label><input type="checkbox" name="diagnosis" value="zns">ZNS/Neurologie</label>
-                                <label><input type="checkbox" name="diagnosis" value="herz">Herz-Kreislauf</label>
-                                <label><input type="checkbox" name="diagnosis" value="atmung">Atmung</label>
-                                <label><input type="checkbox" name="diagnosis" value="abdomen">Abdomen</label>
-                                <label><input type="checkbox" name="diagnosis" value="psychiatrie">Psychiatrie</label>
-                                <label><input type="checkbox" name="diagnosis" value="paediatrie">Pädiatrie</label>
-                                <label><input type="checkbox" name="diagnosis" value="gyn">Gynäkologie/Geburtshilfe</label>
-                                <label><input type="checkbox" name="diagnosis" value="sonstiges">Sonstiges</label>
-                            </td>
-                            <td>4.2. Verletzungen:
-                                <label><input type="checkbox" name="injury" value="keine">keine</label>
-                                <label><input type="checkbox" name="injury" value="schwer">schwer</label>
-                                <label><input type="checkbox" name="injury" value="mittel">mittel</label>
-                                <label><input type="checkbox" name="injury" value="leicht">leicht</label>
-                            </td>
-                        </tr>
-                    </table>
-                    <table>
-                        <tr>
-                            <td>ICD-10 Code: <input type="text" name="icd10_1"></td>
-                            <td>ICD-10 Code: <input type="text" name="icd10_2"></td>
-                            <td>ICD-10 Code: <input type="text" name="icd10_3"></td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="card">
-                    <h2>5. Weitere Details</h2>
-                    <label>Name: <input type="text" name="patientName" required></label>
-                    <label>Geburtsdatum: <input type="date" name="dob"></label>
-                    <label>Geschlecht:
-                        <select name="gender">
-                            <option value="m">männlich</option>
-                            <option value="f">weiblich</option>
-                            <option value="d">divers</option>
-                        </select>
-                    </label>
-                    <label>Alter: <input type="text" name="age" readonly></label>
-                    <label>Größe (cm): <input type="number" name="height"></label>
-                    <label>Gewicht (kg): <input type="number" name="weight"></label>
-                    <label>BMI: <input type="text" name="bmi" readonly></label>
-
-                    <label>Beschwerdebeginn: <input type="datetime-local" name="symptomStart"></label>
-                    <label>Unfallzeitpunkt: <input type="datetime-local" name="accidentTime"></label>
-                    <label>Vormedikation: <textarea name="preMedication"></textarea></label>
-                    <label>Vorbehandlung: <textarea name="preTreatment"></textarea></label>
-
-                    <label>SAMPLER: <textarea name="sampler"></textarea></label>
-                </div>
-
-                <div class="card">
-                    <h2>6. Unterschrift</h2>
-                    <canvas id="signaturePad" width="300" height="150"></canvas>
-                    <button type="button" onclick="clearSignature()">Unterschrift löschen</button>
-                </div>
-
-                <button type="submit">Protokoll abschicken</button>
-            </form>
-        </main>
-    </div>
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
