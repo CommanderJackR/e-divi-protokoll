@@ -1,92 +1,100 @@
-// GCS-Berechnung
+// GCS Berechnung
 function updateGCS() {
-  const augen = parseInt(document.getElementById("gcs-augen").value) || 0;
+  const auge = parseInt(document.getElementById("gcs-auge").value) || 0;
   const verbal = parseInt(document.getElementById("gcs-verbal").value) || 0;
-  const motorik = parseInt(document.getElementById("gcs-motorik").value) || 0;
+  const motorisch = parseInt(document.getElementById("gcs-motorik").value) || 0;
+  const summe = auge + verbal + motorisch;
 
-  const gcsGesamt = augen + verbal + motorik;
-  let interpretation = "Keine Bewertung";
+  let beurteilung = "Keine Angabe";
+  if (summe >= 13) beurteilung = "Leichtes Schädel-Hirn-Trauma";
+  else if (summe >= 9) beurteilung = "Mittelschweres Schädel-Hirn-Trauma";
+  else if (summe > 3) beurteilung = "Schweres Schädel-Hirn-Trauma";
+  else if (summe === 3) beurteilung = "Tief bewusstlos";
 
-  if (gcsGesamt <= 8) interpretation = "Schwere Bewusstseinsstörung";
-  else if (gcsGesamt <= 12) interpretation = "Mittelschwere Störung";
-  else interpretation = "Leichte Beeinträchtigung";
-
-  document.getElementById("gcsResult").textContent = `GCS: ${gcsGesamt} (${interpretation})`;
+  document.getElementById("gcs-score").textContent = `GCS: ${summe} – ${beurteilung}`;
 }
 
-// NRS-Auswertung mit Medikamentenempfehlung
-function updateNRS() {
-  const nrs = parseInt(document.getElementById("nrs").value);
-  let med = "";
+// NRS → Medikamentenvorschlag
+function updateMedikation() {
+  const nrs = parseInt(document.getElementById("nrs").value) || 0;
+  let medikament = "Keine Angabe";
 
-  if (nrs >= 0 && nrs <= 3) med = "Paracetamol";
-  else if (nrs <= 6) med = "Novalgin";
-  else med = "Morphin (nur unter ärztlicher Anweisung)";
+  if (nrs >= 1 && nrs <= 3) medikament = "Paracetamol";
+  else if (nrs >= 4 && nrs <= 6) medikament = "Novalgin (Metamizol)";
+  else if (nrs >= 7 && nrs <= 10) medikament = "Ketamin oder Opiat (z.B. Fentanyl, Morphin)";
+  else medikament = "Keine Schmerzen";
 
-  document.getElementById("medEmpfehlung").textContent = `Empfohlen: ${med}`;
+  document.getElementById("med-empfehlung").textContent = `Empfohlenes Medikament: ${medikament}`;
 }
 
-// Signatur-Funktion
-let canvas = document.getElementById("signature");
-let ctx = canvas.getContext("2d");
-let drawing = false;
-
-canvas.addEventListener("mousedown", () => drawing = true);
-canvas.addEventListener("mouseup", () => drawing = false);
-canvas.addEventListener("mouseout", () => drawing = false);
-canvas.addEventListener("mousemove", draw);
-
-function draw(e) {
-  if (!drawing) return;
-  ctx.lineWidth = 2;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "#000";
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(e.offsetX, e.offsetY);
+// PDF Download
+function downloadPDF() {
+  window.print(); // Funktioniert gut als PDF über Browser (mobil/Tablet optimiert)
 }
 
-function clearSignature() {
+// Unterschrift speichern
+function clearCanvas() {
+  const canvas = document.getElementById("signature");
+  const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// PDF-Erstellung & Discord Webhook
-document.getElementById("divi-form").addEventListener("submit", function (e) {
-  e.preventDefault();
+// Unterschrift erfassen (Touch/Mouse)
+function initCanvas() {
+  const canvas = document.getElementById("signature");
+  const ctx = canvas.getContext("2d");
+  let painting = false;
 
-  // Screenshot + PDF
-  html2canvas(document.querySelector(".container")).then(canvas => {
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  const startPosition = (e) => {
+    painting = true;
+    draw(e);
+  };
 
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("DIVI-Protokoll.pdf");
+  const endPosition = () => {
+    painting = false;
+    ctx.beginPath();
+  };
 
-    // Webhook Senden
-    const discordWebhook = "https://discord.com/api/webhooks/1363882854903447842/13mqoN8AnCIpmG0JXjY4BHBx4s90QlqlT8Ovbcm0yOsEnNT76P2jWYO8FjfhMr3Hyy9U";
-    const patient = document.getElementById("patient-name").value || "Unbekannt";
-    const datum = new Date().toLocaleString();
+  const draw = (e) => {
+    if (!painting) return;
 
-    fetch(discordWebhook, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        embeds: [
-          {
-            title: "📋 Neues E-DIVI Protokoll",
-            color: 15158332,
-            fields: [
-              { name: "🧍 Patient", value: patient, inline: true },
-              { name: "📅 Datum", value: datum, inline: true },
-              { name: "📎 Status", value: "PDF wurde generiert & gespeichert" }
-            ]
-          }
-        ]
-      })
-    });
-  });
+    const rect = canvas.getBoundingClientRect();
+    let x, y;
+
+    if (e.touches) {
+      x = e.touches[0].clientX - rect.left;
+      y = e.touches[0].clientY - rect.top;
+    } else {
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+    }
+
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#000";
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
+
+  canvas.addEventListener("mousedown", startPosition);
+  canvas.addEventListener("mouseup", endPosition);
+  canvas.addEventListener("mousemove", draw);
+  canvas.addEventListener("touchstart", startPosition);
+  canvas.addEventListener("touchend", endPosition);
+  canvas.addEventListener("touchmove", draw);
+}
+
+// Initialisieren
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("gcs-auge").addEventListener("change", updateGCS);
+  document.getElementById("gcs-verbal").addEventListener("change", updateGCS);
+  document.getElementById("gcs-motorik").addEventListener("change", updateGCS);
+  document.getElementById("nrs").addEventListener("change", updateMedikation);
+  document.getElementById("downloadBtn").addEventListener("click", downloadPDF);
+  initCanvas();
+  updateGCS();
+  updateMedikation();
 });
