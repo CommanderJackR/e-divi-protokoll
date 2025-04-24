@@ -9,111 +9,115 @@
 <body>
   <div class="container">
     <header>
-      <img src="lsmd-logo.png" alt="LSMD Logo" class="logo">
-      <h1>E-DIVI PROTOKOLL</h1>
-      <p class="subtitle">Los Santos Medical Department</p>
+      <img src="lsmd-logo.png" alt="LSMD Logo" class="logo"/>
+      <h1>E-DIVI Protokoll</h1>
+      <h2>Los Santos Medical Department</h2>
     </header>
 
-    <form id="edivi-form">
+    <form id="divi-form">
       <section>
-        <h2>Patientendaten</h2>
-        <label>Name: <input type="text" name="name"/></label>
-        <label>Alter: <input type="number" name="alter"/></label>
+        <h3>Patientendaten</h3>
+        <label>Name: <input type="text" name="patient-name"/></label>
+        <label>Alter: <input type="number" name="patient-age"/></label>
         <label>Geschlecht:
-          <select name="geschlecht">
-            <option>Männlich</option>
-            <option>Weiblich</option>
-            <option>Divers</option>
+          <select name="gender">
+            <option>männlich</option>
+            <option>weiblich</option>
+            <option>divers</option>
           </select>
         </label>
-        <label>Gewicht (kg): <input type="number" name="gewicht"/></label>
-        <label>Allergien: <input type="text" name="allergien"/></label>
+        <label>Patienten-ID: <input type="text" name="patient-id"/></label>
       </section>
 
       <section>
-        <h2>Vitalwerte</h2>
-        <label>Puls (bpm): <input type="number" name="puls"/></label>
-        <label>Blutdruck (mmHg): <input type="text" name="blutdruck"/></label>
-        <label>SPO2 (%): <input type="number" name="spo2"/></label>
-        <label>Temperatur (°C): <input type="number" step="0.1" name="temperatur"/></label>
-        <label>Blutzucker (mg/dL): <input type="number" name="blutzucker"/></label>
+        <h3>Vitalparameter</h3>
+        <label>Puls (bpm): <input type="number" name="pulse"/></label>
+        <label>RR (mmHg): <input type="text" name="bp" placeholder="120/80"/></label>
+        <label>SPO₂ (%): <input type="number" name="spo2" min="0" max="100"/></label>
+        <label>Temperatur (°C): <input type="number" step="0.1" name="temp"/></label>
+        <label>BZ (mg/dL): <input type="number" name="bz"/></label>
       </section>
 
       <section>
-        <h2>GCS – Glasgow Coma Scale</h2>
+        <h3>Bewusstseinslage – GCS</h3>
         <label>Augenöffnung:
-          <select name="gcs-augen" onchange="calculateGCS()">
+          <select id="gcs-auge">
             <option value="4">Spontan (4)</option>
-            <option value="3">Auf Aufforderung (3)</option>
+            <option value="3">Auf Ansprache (3)</option>
             <option value="2">Auf Schmerzreiz (2)</option>
-            <option value="1">Keine (1)</option>
+            <option value="1">Keine Reaktion (1)</option>
           </select>
         </label>
         <label>Verbale Reaktion:
-          <select name="gcs-verbal" onchange="calculateGCS()">
+          <select id="gcs-verbal">
             <option value="5">Orientiert (5)</option>
             <option value="4">Verwirrt (4)</option>
             <option value="3">Unangemessen (3)</option>
-            <option value="2">Unverständlich (2)</option>
+            <option value="2">Unverständliches (2)</option>
             <option value="1">Keine (1)</option>
           </select>
         </label>
         <label>Motorische Reaktion:
-          <select name="gcs-motorisch" onchange="calculateGCS()">
-            <option value="6">Folgt Aufforderung (6)</option>
-            <option value="5">Gezielte Bewegung (5)</option>
+          <select id="gcs-motorik">
+            <option value="6">Befolgt Befehle (6)</option>
+            <option value="5">Gezielte Abwehr (5)</option>
             <option value="4">Zurückziehen (4)</option>
-            <option value="3">Beugesynergie (3)</option>
-            <option value="2">Strecksynergie (2)</option>
-            <option value="1">Keine (1)</option>
+            <option value="3">Beugesynergismen (3)</option>
+            <option value="2">Strecksynergismen (2)</option>
+            <option value="1">Keine Reaktion (1)</option>
           </select>
         </label>
-        <div id="gcs-score">GCS: 15 – Normal</div>
+        <p id="gcs-score">GCS: </p>
       </section>
 
       <section>
-        <h2>NRS – Schmerzskala</h2>
-        <label>Schmerzgrad:
-          <select name="nrs" onchange="showPainMed()">
+        <h3>Schmerzskala – NRS</h3>
+        <label>Schmerz (0–10):
+          <select id="nrs">
             <option value="0">0 – Kein Schmerz</option>
             <option value="1">1 – Sehr leicht</option>
-            <option value="2">2 – Leicht</option>
-            <option value="3">3 – Leicht</option>
-            <option value="4">4 – Mittel</option>
-            <option value="5">5 – Mittel</option>
-            <option value="6">6 – Stark</option>
-            <option value="7">7 – Sehr stark</option>
-            <option value="8">8 – Sehr stark</option>
-            <option value="9">9 – Extrem</option>
-            <option value="10">10 – Unerträglich</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10 – Maximal</option>
           </select>
         </label>
-        <div id="med-empfehlung">Empfohlenes Medikament: –</div>
+        <p id="med-empfehlung">Empfohlenes Medikament:</p>
       </section>
 
       <section>
-        <h2>Einsatzdaten</h2>
+        <h3>Einsatzdaten</h3>
         <label>Datum: <input type="date" name="datum"/></label>
-        <label>Uhrzeit: <input type="time" name="uhrzeit"/></label>
-        <label>Einsatzort: <input type="text" name="einsatzort"/></label>
-        <label>Einsatzfahrzeug: <input type="text" name="fahrzeug"/></label>
+        <label>Uhrzeit: <input type="time" name="zeit"/></label>
+        <label>Fahrzeugkennung: <input type="text" name="fahrzeug"/></label>
+        <label>Ort: <input type="text" name="einsatzort"/></label>
+        <label>Transportziel: <input type="text" name="ziel"/></label>
+        <label>Maßnahmen (Mehrfachauswahl):
+          <input type="checkbox"/> O2-Gabe
+          <input type="checkbox"/> i.v. Zugang
+          <input type="checkbox"/> Schmerzmittelgabe
+          <input type="checkbox"/> Monitoring
+        </label>
       </section>
 
       <section>
-        <h2>Maßnahmen & Verlauf</h2>
-        <textarea name="massnahmen" rows="5" placeholder="Versorgungsmaßnahmen, Medikation, Monitoring, Übergabe usw."></textarea>
+        <h3>Unterschrift</h3>
+        <canvas id="signature" width="300" height="100" style="border:1px solid #ccc;"></canvas><br/>
+        <button type="button" onclick="clearCanvas()">Unterschrift löschen</button>
       </section>
 
-      <section>
-        <h2>Unterschrift</h2>
-        <canvas id="signature-pad" width="300" height="100"></canvas>
-        <button type="button" onclick="clearSignature()">Signatur löschen</button>
-      </section>
-
-      <button type="submit">Protokoll abschicken & PDF herunterladen</button>
+      <button type="button" id="downloadBtn">PDF Herunterladen</button>
     </form>
-  </div>
 
+    <footer>
+      <p>&copy; Los Santos Medical Department · E-DIVI System</p>
+    </footer>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
