@@ -1,135 +1,114 @@
-/* Grundlegendes Reset */
-* {
+/* Grundlayout */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f5f5f5;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-/* iPad-Style Container */
-body {
-  background: #f5f5f5;
-  padding: 20px;
+  color: #333;
 }
 
 .container {
-  max-width: 900px;
-  margin: auto;
+  max-width: 850px;
+  margin: 30px auto;
   background: white;
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
   padding: 30px;
+  border: 3px solid #b30000;
 }
 
-/* Kopfzeile */
+/* Header */
 header {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border-bottom: 2px solid #c62828;
-  padding-bottom: 15px;
+  text-align: center;
   margin-bottom: 25px;
 }
 
-.logo {
-  height: 60px;
+header .logo {
+  height: 80px;
+  margin-bottom: 10px;
 }
 
 header h1 {
-  font-size: 1.8rem;
-  color: #c62828;
+  margin: 0;
+  color: #b30000;
+  font-size: 28px;
 }
 
-/* Abschnitte */
-section {
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
+header .subtitle {
+  font-size: 14px;
+  color: #555;
 }
 
-section h2 {
+/* Formularelemente */
+form section {
+  margin-bottom: 30px;
+  border-top: 2px solid #eee;
+  padding-top: 20px;
+}
+
+form section h2 {
+  color: #b30000;
   margin-bottom: 15px;
-  color: #b71c1c;
-  font-size: 1.3rem;
+  font-size: 20px;
 }
 
-/* Labels & Inputs */
 label {
   display: block;
-  margin-bottom: 12px;
-  color: #333;
-  font-weight: bold;
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 
 input[type="text"],
 input[type="number"],
-input[type="datetime-local"],
+input[type="date"],
+input[type="time"],
 select,
 textarea {
   width: 100%;
   padding: 10px;
-  border-radius: 8px;
+  margin-top: 3px;
   border: 1px solid #ccc;
-  margin-top: 5px;
-  background-color: #fafafa;
-  transition: border-color 0.3s ease;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #c62828;
-  outline: none;
+/* Textarea */
+textarea {
+  resize: vertical;
 }
 
-/* GCS/NRS Ergebnisfeld */
-#gcsResult,
-#medEmpfehlung {
+/* GCS und NRS Anzeigen */
+#gcs-score,
+#med-empfehlung {
   margin-top: 10px;
+  padding: 10px;
+  background: #f7f7f7;
+  border-left: 5px solid #b30000;
+  border-radius: 5px;
   font-weight: bold;
-  color: #2e7d32;
 }
 
-/* Button */
-button[type="submit"],
-button {
-  background-color: #c62828;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 15px;
-}
-
-button:hover {
-  background-color: #b71c1c;
-}
-
-/* Canvas für Signatur */
+/* Canvas Signatur */
 canvas {
-  background: #fff;
-  border: 2px solid #ccc;
-  border-radius: 8px;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
   display: block;
   margin-top: 10px;
 }
 
-/* Responsive */
-@media screen and (max-width: 600px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+/* Button */
+button {
+  background-color: #b30000;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+}
 
-  .logo {
-    height: 50px;
-  }
-
-  header h1 {
-    font-size: 1.4rem;
-  }
+button:hover {
+  background-color: #900000;
 }
